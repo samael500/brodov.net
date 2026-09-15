@@ -1,0 +1,24 @@
+baseURL = 'https://brodov.net/'
+locale = 'ru-RU'
+defaultContentLanguage = 'ru'
+title = 'Бродов нет'
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+disableKinds = ['taxonomy', 'term']
+[params]
+  description = 'Бортовой журнал. Истории из лесов и болот, заметки с кухни и рабочего стола.'
+  author = 'Максим Скороход'
+  contact = ''
+[outputs]
+  home = ['HTML', 'RSS']
+[markup.goldmark.renderer]
+  unsafe = false
+[markup.highlight]
+  noClasses = false
+[imaging]
+  resampleFilter = 'Lanczos'
+[imaging.webp]
+  quality = 85
+[imaging.jpeg]
+  quality = 85

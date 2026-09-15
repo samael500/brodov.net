@@ -1,0 +1,4 @@
+{{ define "main" }}
+<h1 class="list-title">{{ .Title }}</h1>
+{{ range .Pages }}<article class="entry"><div class="meta">{{ .Date.Format "02.01.2006" }}{{ if .Draft }} · Черновик{{ end }}</div><h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2><p>{{ .Description }}</p></article>{{ else }}<p>Первая запись ещё готовится.</p>{{ end }}
+{{ end }}

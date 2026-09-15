@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "canvas": [
+    1254,
+    1254
+  ],
+  "ink": "#35312f",
+  "layers": [
+    {
+      "id": "illustration",
+      "file": "illustration.png",
+      "offset": [
+        155,
+        55
+      ],
+      "size": [
+        989,
+        755
+      ]
+    },
+    {
+      "id": "wordmark",
+      "file": "wordmark.png",
+      "offset": [
+        308,
+        831
+      ],
+      "size": [
+        635,
+        281
+      ]
+    },
+    {
+      "id": "tagline",
+      "file": "tagline.png",
+      "offset": [
+        395,
+        1145
+      ],
+      "size": [
+        464,
+        52
+      ]
+    }
+  ]
+}

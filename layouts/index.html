@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="section-label">Записи бортового журнала</div>
+{{ range where site.RegularPages "Section" "posts" }}
+<article class="entry">
+<div class="meta">{{ .Date.Format "02.01.2006" }} · {{ .Params.kind }}{{ if .Draft }} · Черновик{{ end }}</div>
+<h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
+<p>{{ .Description }}</p>
+<a class="read" href="{{ .RelPermalink }}">Читать запись <span aria-hidden="true">→</span></a>
+</article>
+{{ else }}
+<article class="entry"><h1>Начнём с малого</h1><p>Первая запись ещё готовится.</p></article>
+{{ end }}
+{{ end }}

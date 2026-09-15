@@ -1,0 +1,18 @@
+{{ $image := resources.Get "images/social-base.png" }}
+{{ $font := resources.Get "fonts/literata-card.ttf" }}
+{{ $sans := resources.Get "fonts/pt-sans.ttf" }}
+{{ $text := .Params.social_title | default .Title }}
+{{/* Wrap by words; social_title supports explicit line breaks. */}}
+{{ if not (strings.Contains $text "\n") }}
+  {{ $lines := slice }}{{ $line := "" }}
+  {{ range split $text " " }}
+    {{ $next := strings.TrimSpace (printf "%s %s" $line .) }}
+    {{ if gt (strings.RuneCount $next) 23 }}{{ if $line }}{{ $lines = $lines | append $line }}{{ end }}{{ $line = . }}{{ else }}{{ $line = $next }}{{ end }}
+  {{ end }}
+  {{ if $line }}{{ $lines = $lines | append $line }}{{ end }}
+  {{ $text = delimit $lines "\n" }}
+{{ end }}
+{{ if gt (len (split $text "\n")) 4 }}{{ errorf "Social title too long on %s: set shorter social_title" .RelPermalink }}{{ end }}
+{{ $image = $image.Filter (images.Text $text (dict "font" $font "size" 52 "color" "#35312f" "x" 64 "y" 205 "linespacing" 16)) }}
+{{ $image = $image.Filter (images.Text "БОРТОВОЙ ЖУРНАЛ · BRODOV.NET" (dict "font" $sans "size" 23 "color" "#6a6259" "x" 64 "y" 90)) }}
+{{ return $image }}

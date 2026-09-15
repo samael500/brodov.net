@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+<div class="page">
+{{ if .IsHome }}
+<header class="masthead">
+  <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="Бродов нет — главная"><img src="{{ `images/logo.png` | relURL }}" alt="Бродов нет. Бортовой журнал" width="1254" height="1254"></a>
+  <div class="intro"><p>Истории из лесов и болот,<br>заметки с кухни и рабочего стола.</p><p>Всё начинается с мысли:<br><em>«А почему бы и да…»</em></p></div>
+</header>
+{{ else }}
+<header class="compact"><a href="{{ site.Home.RelPermalink }}">Бродов нет</a><span>Бортовой журнал</span></header>
+{{ end }}
+<nav aria-label="Основное меню"><a href="{{ `posts/` | relURL }}">Все записи</a><a href="{{ `index.xml` | relURL }}">RSS</a></nav>
+<main id="content">{{ block "main" . }}{{ end }}</main>
+<footer><span>Бродов нет · {{ now.Year }}</span><span>А почему бы и да…</span></footer>
+</div>
+</body>
+</html>
