@@ -16,6 +16,6 @@ The approved logo is a fixed asset, not a generation prompt.
   tagline is raster lettering, not a real editable PT Sans text object.
 - `master.svg` contains raster alpha masks. Do not describe it as a vector
   tracing. True vectorization is a separate task requiring visual approval.
-- Approved palette: warm ink #35312F and light paper #F2EFE8.
+- Approved palette: warm ink #35312F and light paper #FAF8F3.
 - The pizza article text and four illustrations are approved. It remains draft until the owner chooses its publication date and launch.
 - Do not modify maks.live or its repository; use a separate new repository for brodov.net.
