@@ -1,0 +1,16 @@
+{
+  "gpx": "track.gpx",
+  "title": "Русская тропа",
+  "subtitle": "Гаврилов Посад · 17 августа 2025 · 111 км · 13:32:30",
+  "cache": "cache",
+  "output": "../../content/posts/russian-trail/route",
+  "marker_every_km": 20,
+  "elevation_gaps": [
+    {
+      "from_km": 9.422840454693995,
+      "to_km": 10.67402323656703
+    }
+  ],
+  "gap_note": "Пунктир — пропуск подводных показаний, не восстановленный рельеф.",
+  "preview_output": "../../content/posts/russian-trail/route-preview.png"
+}

@@ -25,3 +25,8 @@ The approved logo is a fixed asset, not a generation prompt.
   `/posts/pizza/` with date 2026-09-13. Do not change its text, date, URL, or
   metadata as part of unrelated work.
 - Do not modify maks.live or its repository; use a separate new repository for brodov.net.
+
+- Route maps and homepage thumbnails must follow the approved route-map rules
+  in `docs/PROJECT-CONTEXT.md` (section «Карты маршрутов — утверждённые правила»).
+  Keep full-map and thumbnail styling separate: route strokes are 1.8 pt and
+  2.5 pt respectively; previews are chosen independently of article photos.

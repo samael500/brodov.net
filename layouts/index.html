@@ -6,7 +6,7 @@
 {{ $page := . }}
 <article class="entry{{ with .Params.preview_image }} has-preview{{ end }}">
 {{ with .Params.preview_image }}{{ $preview := $page.Resources.GetMatch . }}{{ with $preview }}{{ $small := .Resize "600x webp" }}{{ $large := .Resize "1000x webp" }}
-<a class="entry-illustration" href="{{ $page.RelPermalink }}" aria-label="{{ $page.Title }}"><img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} 600w, {{ $large.RelPermalink }} 1000w" sizes="(max-width: 600px) calc(100vw - 44px), 300px" alt="{{ $page.Params.preview_image_alt }}" width="{{ $small.Width }}" height="{{ $small.Height }}" loading="lazy" decoding="async"></a>
+<a class="entry-illustration{{ if hasPrefix $page.Params.preview_image "illustrations/" }} culinary-preview{{ end }}" href="{{ $page.RelPermalink }}" aria-label="{{ $page.Title }}"><img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} 600w, {{ $large.RelPermalink }} 1000w" sizes="(max-width: 600px) calc(100vw - 44px), 300px" alt="{{ $page.Params.preview_image_alt }}" width="{{ $small.Width }}" height="{{ $small.Height }}" loading="lazy" decoding="async"></a>
 {{ else }}{{ errorf "Preview image not found: %s" . }}{{ end }}{{ end }}
 <div class="entry-copy">
 <div class="meta">{{ .Date.Format "02.01.2006" }} · {{ .Params.kind }}{{ if .Draft }} · Черновик{{ end }}</div>

@@ -1,0 +1,12 @@
+{{ $image := .Page.Resources.GetMatch (.Get "src") }}
+{{ $full := .Page.Resources.GetMatch (.Get "full") }}
+{{ if and $image $full }}
+{{ $small := $image.Resize "720x webp" }}
+{{ $large := $image.Resize "1440x webp" }}
+<figure class="route-map">
+  <a href="{{ $full.RelPermalink }}" aria-label="Открыть карту в полном размере">
+    <img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} 720w, {{ $large.RelPermalink }} 1440w" sizes="(max-width: 600px) calc(100vw - 44px), (max-width: 740px) calc(100vw - 80px), 660px" width="{{ $small.Width }}" height="{{ $small.Height }}" alt="{{ .Get "alt" }}" loading="lazy" decoding="async">
+  </a>
+  <figcaption><a href="{{ $full.RelPermalink }}">Открыть карту в полном размере</a> · <a href="{{ $image.RelPermalink }}">PNG</a><br>Данные карты: © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></figcaption>
+</figure>
+{{ else }}{{ errorf "Route map resources missing on %s" .Page.RelPermalink }}{{ end }}
