@@ -1,5 +1,5 @@
 {{ define "main" }}
 <h1 class="list-title">{{ .Title }}</h1>
-{{ $pages := .Pages }}{{ if not site.Params.noindex }}{{ $pages = where $pages "Draft" false }}{{ end }}
+{{ $pages := .Pages }}{{ if not site.Params.noindex }}{{ $pages = where $pages "Draft" "ne" true }}{{ end }}
 {{ range $pages }}<article class="entry"><div class="meta">{{ .Date.Format "02.01.2006" }}{{ if .Draft }} · Черновик{{ end }}</div><h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2><p>{{ .Description }}</p></article>{{ else }}<p>Первая запись ещё готовится.</p>{{ end }}
 {{ end }}
