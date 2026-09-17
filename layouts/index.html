@@ -1,6 +1,8 @@
 {{ define "main" }}
 <div class="section-label">Записи бортового журнала</div>
-{{ range where site.RegularPages "Section" "posts" }}
+{{ $pages := where site.RegularPages "Section" "posts" }}
+{{ if not site.Params.noindex }}{{ $pages = where $pages "Draft" false }}{{ end }}
+{{ range $pages }}
 {{ $page := . }}
 <article class="entry{{ with .Params.preview_image }} has-preview{{ end }}">
 {{ with .Params.preview_image }}{{ $preview := $page.Resources.GetMatch . }}{{ with $preview }}{{ $small := .Resize "600x webp" }}{{ $large := .Resize "1000x webp" }}
