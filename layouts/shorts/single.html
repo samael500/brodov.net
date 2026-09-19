@@ -2,13 +2,13 @@
 {{ $p := . }}{{ $month := false }}{{ range where site.Pages "Type" "short-month" }}{{ if in .Params.storyrefs $p.Path }}{{ $month = . }}{{ end }}{{ end }}
 <article class="short-story" data-story-url="{{ .RelPermalink }}">
 <div class="short-top"><a class="short-back" href="{{ if $month }}{{ $month.RelPermalink }}{{ else }}{{ `shorts/` | relURL }}{{ end }}">← К историям</a><span class="meta">{{ .Date.Format "02.01.2006" }}{{ if .Draft }} · Черновик{{ end }}</span></div>
-<h1 class="short-title">{{ .Title }}</h1>
+{{ if not .Params.hide_title }}<h1 class="short-title">{{ .Title }}</h1>{{ end }}
 <div class="short-frames">{{ range $i, $frame := .Params.frames }}
 <figure class="short-frame" data-frame="{{ $i }}">
 <div class="short-stage">{{ $media := partial "shorts/media.html" (dict "page" $p "frame" $frame) }}<template data-media>{{ $media }}</template><noscript>{{ $media }}</noscript></div>
-<figcaption>{{ .caption }}</figcaption></figure>{{ end }}</div>
+{{ with .caption }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>{{ end }}</div>
 <div class="short-controls" hidden><button class="short-round" data-prev aria-label="Предыдущий кадр или история">←</button><span class="short-progress" aria-live="polite"></span><button class="short-round" data-next aria-label="Следующий кадр или история">→</button></div>
 <div class="short-steps" hidden aria-label="Кадры истории"></div>
 <div class="prose">{{ .Content }}</div>
-{{ if $month }}{{ $stories := partial "shorts/stories.html" $month }}{{ range $i, $story := $stories }}{{ if eq .Path $p.Path }}<nav class="short-neighbours" aria-label="Истории этого месяца" data-index="{{ add $i 1 }}" data-total="{{ len $stories }}">{{ if gt $i 0 }}{{ with index $stories (sub $i 1) }}<a data-neighbour="prev" href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}{{ end }}{{ if lt (add $i 1) (len $stories) }}{{ with index $stories (add $i 1) }}<a data-neighbour="next" href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}{{ end }}</nav>{{ end }}{{ end }}{{ end }}
+{{ if $month }}{{ $stories := partial "shorts/stories.html" $month }}{{ range $i, $story := $stories }}{{ if eq .Path $p.Path }}<nav class="short-neighbours" aria-label="Истории этого месяца" data-index="{{ add $i 1 }}" data-total="{{ len $stories }}">{{ if gt $i 0 }}{{ with index $stories (sub $i 1) }}<a data-neighbour="prev" href="{{ .RelPermalink }}">← {{ if .Params.hide_title }}{{ .Date.Format "02.01.2006" }}{{ else }}{{ .Title }}{{ end }}</a>{{ end }}{{ end }}{{ if lt (add $i 1) (len $stories) }}{{ with index $stories (add $i 1) }}<a data-neighbour="next" href="{{ .RelPermalink }}">{{ if .Params.hide_title }}{{ .Date.Format "02.01.2006" }}{{ else }}{{ .Title }}{{ end }} →</a>{{ end }}{{ end }}</nav>{{ end }}{{ end }}{{ end }}
 </article>{{ end }}
