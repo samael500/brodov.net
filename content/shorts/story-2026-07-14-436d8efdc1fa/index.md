@@ -1,7 +1,7 @@
 {
-  "title": "#каплядоброты",
+  "title": "Капля доброты",
   "description": "#каплядоброты",
-  "social_title": "#каплядоброты",
+  "social_title": "Капля доброты",
   "date": "2026-07-14T11:00:57+03:00",
   "draft": false,
   "type": "shorts",
