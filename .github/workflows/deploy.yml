@@ -23,6 +23,7 @@ jobs:
           tar -xzf /tmp/hugo.tar.gz -C /tmp hugo
           sudo install /tmp/hugo /usr/local/bin/hugo
       - uses: actions/configure-pages@v5
+      - run: python3 -m pip install -r tools/requirements-build.txt
       - run: make check
       - uses: actions/upload-pages-artifact@v4
         with:

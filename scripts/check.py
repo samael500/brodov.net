@@ -22,6 +22,9 @@ class Page(HTMLParser):
         if tag == 'link' and a.get('rel') == 'canonical': self.canonical = a['href']
         if tag == 'link' and a.get('rel') == 'stylesheet': self.assets.append(a['href'])
         if tag == 'img': self.assets.append(a['src'])
+        if tag == 'script' and a.get('src'): self.assets.append(a['src'])
+        if tag in ('source', 'video') and a.get('src'): self.assets.append(a['src'])
+        if tag == 'video' and a.get('poster'): self.assets.append(a['poster'])
         if tag == 'script' and a.get('type') == 'application/ld+json': self.in_schema = True
     def handle_data(self, data):
         if self.in_schema: self.schema += data
@@ -32,6 +35,9 @@ pages = list(root.rglob('*.html'))
 assert pages, 'No HTML output'
 for path in pages:
     p = Page(); p.feed(path.read_text())
+    if 'http-equiv="refresh"' in path.read_text() or 'http-equiv=refresh' in path.read_text():
+        assert p.canonical, (path, "Alias without canonical")
+        continue
     for key in ['description', 'og:title', 'og:description', 'og:image', 'twitter:card']:
         assert p.meta.get(key), (path, key)
     assert urlparse(p.canonical).scheme in ('http', 'https'), path
@@ -47,4 +53,15 @@ if not preview:
         if 'draft: true' in md.read_text().split('---')[1]:
             assert not (root / md.parent / 'index.html').exists()
             assert not (root / 'posts' / md.parent.name / 'index.html').exists()
+if not preview:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
+    from stories.content import collect
+    allowed = {row['path'].strip('/') for rows in collect(Path.cwd()).values() for row in rows}
+    for md in Path('content/shorts').glob('*/index.md'):
+        relative = 'shorts/' + md.parent.name
+        if relative not in allowed:
+            assert not (root / relative).exists(), ('Excluded short leaked', relative)
+    for path in root.rglob('*'):
+        assert not path.name.endswith(('.session', '.session-journal', '.part')), ('Private file', path)
+        assert path.name not in ('source.json', 'selection.json', 'imports.json'), ('Private metadata', path)
 print(f'OK: {len(pages)} pages, metadata and assets checked; preview={preview}')

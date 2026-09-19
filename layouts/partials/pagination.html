@@ -1,0 +1,1 @@
+{{ if gt .TotalPages 1 }}<nav class="pagination" aria-label="Страницы">{{ with .Prev }}<a href="{{ .URL }}">← Новее</a>{{ else }}<span></span>{{ end }}<span>{{ .PageNumber }} / {{ .TotalPages }}</span>{{ with .Next }}<a href="{{ .URL }}">Раньше →</a>{{ else }}<span></span>{{ end }}</nav>{{ end }}

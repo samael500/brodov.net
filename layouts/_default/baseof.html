@@ -14,9 +14,10 @@
 {{ else }}
 <header class="compact"><a href="{{ site.Home.RelPermalink }}">Бродов нет</a><span>Бортовой журнал</span></header>
 {{ end }}
-<nav aria-label="Основное меню"><a href="{{ `posts/` | relURL }}">Все записи</a><a href="{{ `index.xml` | relURL }}">RSS</a></nav>
+<nav aria-label="Основное меню"><a href="{{ `posts/` | relURL }}">Все записи</a><a href="{{ `shorts/` | relURL }}">А что за поворотом</a><a href="{{ `index.xml` | relURL }}">RSS</a></nav>
 <main id="content">{{ block "main" . }}{{ end }}</main>
 <footer><span>Бродов нет · {{ now.Year }}</span><span>А почему бы и да…</span></footer>
 </div>
+{{ $js := resources.Get "shorts.js" | minify | fingerprint }}<script src="{{ $js.RelPermalink }}" defer></script>
 </body>
 </html>

@@ -1,0 +1,1 @@
+{{ $n := int . }}{{ $word := "историй" }}{{ if not (and (ge (mod $n 100) 11) (le (mod $n 100) 14)) }}{{ if eq (mod $n 10) 1 }}{{ $word = "история" }}{{ else if in (slice 2 3 4) (mod $n 10) }}{{ $word = "истории" }}{{ end }}{{ end }}{{ return (printf "%d %s" $n $word) }}

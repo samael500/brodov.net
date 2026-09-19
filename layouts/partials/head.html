@@ -10,6 +10,7 @@
 {{ if or .Draft site.Params.noindex }}<meta name="robots" content="noindex, nofollow">{{ end }}
 <link rel="alternate" type="application/rss+xml" title="Бродов нет" href="{{ `index.xml` | absURL }}">
 {{ $css := resources.Get "style.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ $shortCSS := resources.Get "shorts.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $shortCSS.RelPermalink }}">
 <link rel="icon" type="image/svg+xml" href="{{ `favicon.svg` | relURL }}">
 <meta property="og:title" content="{{ $socialTitle }}">
 <meta property="og:description" content="{{ $socialDescription }}">
@@ -18,6 +19,7 @@
 <meta property="og:locale" content="ru_RU">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 {{ $image := partial "social-image.html" . }}
+{{ if and .IsPage (eq .Type "shorts") }}{{ with .Resources.GetMatch .Params.cover.src }}{{ $image = .Fit "1200x1200 jpg" }}{{ end }}{{ end }}
 {{ with .Params.social_image }}{{ with $.Resources.GetMatch . }}{{ $image = .Fill "1200x630 jpg" }}{{ else }}{{ errorf "Missing social_image: %s" . }}{{ end }}{{ end }}
 <meta property="og:image" content="{{ $image.Permalink }}">
 <meta property="og:image:width" content="{{ $image.Width }}">

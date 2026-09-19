@@ -1,0 +1,3 @@
+{{ define "main" }}<h1 class="list-title">{{ .Title }}</h1>
+{{ $months := where .Pages "Type" "short-month" }}{{ $pager := .Paginate $months.ByDate.Reverse }}
+{{ range $pager.Pages }}{{ partial "shorts/month.html" . }}{{ else }}<p>Первые истории ещё готовятся.</p>{{ end }}{{ partial "pagination.html" $pager }}{{ end }}

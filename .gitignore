@@ -4,3 +4,13 @@
 /preview/
 /tools/route-generator/.venv/
 __pycache__/
+/.shorts-generated/
+/tools/.stories-venv/
+*.session
+*.session-journal
+*.session-wal
+*.session-shm
+.env
+.env.*
+!.env.example
+/telegram-stories/

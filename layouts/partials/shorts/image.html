@@ -1,0 +1,3 @@
+{{ $image := .image }}{{ $limit := .limit | default 960 }}{{ $small := $image }}{{ if gt (math.Max $image.Width $image.Height) $limit }}{{ $small = $image.Fit (printf "%dx%d webp" $limit $limit) }}{{ else }}{{ $small = $image.Process "webp" }}{{ end }}
+{{ $large := $image }}{{ if gt (math.Max $image.Width $image.Height) 1600 }}{{ $large = $image.Fit "1600x1600 webp" }}{{ else }}{{ $large = $image.Process "webp" }}{{ end }}
+<img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} {{ $small.Width }}w{{ if ne $small.Width $large.Width }}, {{ $large.RelPermalink }} {{ $large.Width }}w{{ end }}" sizes="(max-width: 760px) 90vw, 740px" width="{{ $small.Width }}" height="{{ $small.Height }}" alt="{{ .alt }}" loading="lazy" decoding="async">

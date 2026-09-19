@@ -1,0 +1,1 @@
+{{ $pages := slice }}{{ range .Params.storyrefs }}{{ with site.GetPage . }}{{ $pages = $pages | append . }}{{ end }}{{ end }}{{ return $pages }}

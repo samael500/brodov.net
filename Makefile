@@ -1,11 +1,14 @@
 HUGO ?= hugo
 .PHONY: dev build preview check
 dev:
+	python3 tools/stories/content.py --preview
 	$(HUGO) server --environment preview --buildDrafts --disableFastRender
 build:
+	python3 tools/stories/content.py
 	$(HUGO) --environment production --cleanDestinationDir --minify
 preview:
-	$(HUGO) --environment preview --buildDrafts --destination preview --baseURL http://localhost:8765/
+	python3 tools/stories/content.py --preview
+	$(HUGO) --environment preview --buildDrafts --cleanDestinationDir --destination preview --baseURL http://localhost:8765/
 check: build
 	python3 scripts/check.py public
 
@@ -17,3 +20,10 @@ route-setup:
 	$(ROUTE_PYTHON) -m pip install -r tools/route-generator/requirements.txt
 route:
 	$(ROUTE_PYTHON) tools/route-generator/render.py "route-sources/$(ROUTE)/route.json"
+
+.PHONY: stories-setup stories-test
+stories-setup:
+	python3 -m venv tools/.stories-venv
+	tools/.stories-venv/bin/pip install -r tools/requirements-stories.txt
+stories-test:
+	tools/.stories-venv/bin/python -m unittest discover -s tests -p 'test_stories*.py'

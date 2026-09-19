@@ -1,0 +1,2 @@
+{{ $p := .page }}{{ $frame := .frame }}
+{{ if eq $frame.kind "video" }}{{ $video := $p.Resources.GetMatch $frame.src }}{{ $poster := $p.Resources.GetMatch $frame.poster }}{{ with $video }}<video controls playsinline preload="none" poster="{{ $poster.RelPermalink }}" aria-label="{{ $frame.alt }}"><source src="{{ .RelPermalink }}" type="{{ .MediaType.Type }}"></video>{{ end }}{{ else }}{{ with $p.Resources.GetMatch $frame.src }}{{ partial "shorts/image.html" (dict "image" . "alt" $frame.alt) }}{{ end }}{{ end }}

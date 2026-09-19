@@ -1,5 +1,6 @@
 baseURL = 'https://brodov.net/'
 locale = 'ru-RU'
+timeZone = 'Europe/Moscow'
 defaultContentLanguage = 'ru'
 title = 'Бродов нет'
 enableRobotsTXT = true
@@ -22,3 +23,12 @@ disableKinds = ['taxonomy', 'term']
   quality = 85
 [imaging.jpeg]
   quality = 85
+
+[pagination]
+  pagerSize = 10
+[[module.mounts]]
+  source = 'content'
+  target = 'content'
+[[module.mounts]]
+  source = '.shorts-generated'
+  target = 'content'
