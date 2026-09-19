@@ -96,11 +96,13 @@
       else if (historyMode === 'replace') history.replaceState({shortViewer:true,url},'',url);
       if (!dialog.open) {document.documentElement.style.overflow='hidden';dialog.showModal();}
       modalActive=true;dialog.scrollTop=0;close.focus();
+      document.dispatchEvent(new CustomEvent('brodov:pageview', {detail:{url:location.href,title:parsed.title}}));
     } catch (_) {if (ownTicket === ticket) location.assign(url);}
   }
   function closeModal() {
     ++ticket;if (!dialog || !dialog.open) return;
     pause(dialog);dialog.close();dialog.replaceChildren();document.documentElement.style.overflow='';modalActive=false;currentRoot=null;
+    document.dispatchEvent(new CustomEvent('brodov:pageview', {detail:{url:location.href,title:document.title}}));
     window.scrollTo(0,originalY);if (opener?.isConnected) opener.focus({preventScroll:true});
   }
   document.addEventListener('click', e => {

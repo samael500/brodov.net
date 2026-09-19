@@ -3,6 +3,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse, unquote
 import json
+import re
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else 'public')
@@ -43,6 +44,9 @@ for path in pages:
     assert urlparse(p.canonical).scheme in ('http', 'https'), path
     assert urlparse(p.meta['og:image']).scheme in ('http', 'https'), path
     for url in p.assets + [p.meta['og:image']]:
+        if re.fullmatch(r'https://mc\.yandex\.ru/watch/[1-9][0-9]*', url):
+            assert not preview, (path, 'Analytics leaked into preview')
+            continue
         asset = root / unquote(urlparse(url).path.lstrip('/'))
         assert asset.is_file(), (path, 'Missing asset', asset)
     if p.schema: assert json.loads(p.schema)['@type'] == 'BlogPosting'

@@ -1,0 +1,26 @@
+{{- $id := site.Params.metrika_id | default 0 -}}
+{{- if and hugo.IsProduction (not site.Params.noindex) (not .Draft) $id -}}
+{{- if not (findRE `^[1-9][0-9]*$` (string $id)) -}}
+  {{- errorf "metrika_id must be a positive integer" -}}
+{{- else -}}
+<script>
+(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();
+for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r)return;}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a)})
+(window,document,'script',{{ printf "https://mc.yandex.ru/metrika/tag.js?id=%v" $id }},'ym');
+(() => {
+  const counter = {{ int $id }};
+  ym(counter,'init',{ssr:true,webvisor:true,clickmap:true,referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});
+  let last = location.href;
+  document.addEventListener('brodov:pageview', event => {
+    const next = new URL(event.detail.url, location.href);
+    if (next.origin !== location.origin || next.href === last) return;
+    ym(counter,'hit',next.href,{title:event.detail.title,referer:last});
+    last = next.href;
+  });
+})();
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/{{ $id }}" style="position:absolute;left:-9999px" alt=""></div></noscript>
+{{- end -}}
+{{- end -}}
