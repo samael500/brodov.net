@@ -10,7 +10,7 @@
 {{ if .IsHome }}
 <header class="masthead">
   {{ $logo := resources.Get "images/logo.png" | fingerprint }}
-  <a class="brand" href="{{ site.Home.RelPermalink }}"><img src="{{ $logo.RelPermalink }}" alt="Бродов нет" width="1254" height="1126"></a>
+  <h1 class="brand"><a href="{{ site.Home.RelPermalink }}"><img src="{{ $logo.RelPermalink }}" alt="Бродов нет" width="1254" height="1126"></a></h1>
   <div class="intro"><p class="brand-tagline">{{ site.Params.tagline }}</p><p>Истории из лесов и болот,<br>заметки с кухни и рабочего стола.</p><p>Всё начинается с мысли:<br><em>«А почему бы и да…»</em></p></div>
 </header>
 {{ else }}

@@ -23,6 +23,9 @@
   {{- if $art -}}{{- $visual = $art -}}{{- end -}}
   {{- $visual = $visual.Fit "440x460" -}}
   {{- $image = $image.Filter (images.Overlay $visual (int (sub 950 (div $visual.Width 2))) (int (sub 315 (div $visual.Height 2)))) -}}
+  {{- with .Params.social_image_credit -}}
+    {{- $image = $image.Filter (images.Text . (dict "font" $sans "size" 16 "color" "#6a6259" "x" 950 "y" 551 "alignx" "center")) -}}
+  {{- end -}}
   {{- $text := .Params.social_title | default .Title -}}
   {{/* Keep intentional breaks, wrapping long lines further instead of shrinking type. */}}
   {{- $lines := slice -}}

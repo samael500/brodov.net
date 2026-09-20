@@ -4,6 +4,9 @@ description: "Поля до горизонта, броды, василькова
 date: 2025-08-21T03:28:00+03:00
 draft: false
 kind: "Трейл"
+social_image: "route-preview.png"
+social_image_credit: "© OpenStreetMap contributors"
+social_image_alt: "Карта маршрута Русской тропы — © OpenStreetMap contributors"
 preview_image: "route-preview.png"
 preview_image_alt: "Маршрут Русской тропы вокруг Гаврилова Посада"
 ---

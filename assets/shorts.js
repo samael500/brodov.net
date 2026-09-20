@@ -5,9 +5,9 @@
     const reel = section.querySelector('.short-reel');
     const controls = section.querySelector('.short-arrows');
     if (!controls) return;
-    controls.hidden = false;
     const buttons = [...controls.querySelectorAll('button')];
     const update = () => {
+      controls.hidden = reel.scrollWidth <= reel.clientWidth + 2;
       buttons[0].disabled = reel.scrollLeft <= 2;
       buttons[1].disabled = reel.scrollLeft + reel.clientWidth >= reel.scrollWidth - 2;
     };
