@@ -89,7 +89,7 @@ def prepare(root=ROOT, preview=False, now=None):
         year, month=key.split('-'); label=MONTHS[int(month)-1]
         page(out/f'shorts/{year}/{month}/_index.md', {
             'title':f"А что за поворотом · {label} '{year[-2:]}",
-            'description':f'{label.capitalize()} {year} — {count_label(len(stories))} из бортового журнала.',
+            'description':f'{label.capitalize()} {year} — {count_label(len(stories))} из журнала «Бродов нет».',
             'type':'short-month','date':stories[0]['date'].isoformat(),
             'monthkey':key, 'monthname':label,'storyrefs':[s['path'] for s in stories],
             'social_title':f'А что за поворотом\n{label} {year}',

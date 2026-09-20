@@ -4,6 +4,7 @@ description: "Вода, мука, соль, сахар, масло, дрожжи
 date: 2026-09-13T12:00:00+03:00
 draft: false
 kind: "Рецепт"
+social_image: "illustrations/pizza.png"
 social_title: "Квадратная пицца\nпо рецепту из детства"
 tags: ["кухня", "пицца"]
 preview_image: "illustrations/pizza.png"

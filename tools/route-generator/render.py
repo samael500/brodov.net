@@ -58,7 +58,7 @@ from matplotlib.lines import Line2D
 osm=json.loads((cache/'base.json').read_text())['elements']
 def proj(lon,lat):return r*np.cos(np.mean(la))*(np.radians(lon)-lo[0]),r*(np.radians(lat)-la[0])
 fig=plt.figure(figsize=(10,12),facecolor=paper)
-fig.text(.08,.951,cfg.get('brand','БРОДОВ НЕТ  /  БОРТОВОЙ ЖУРНАЛ'),fontsize=10,color=muted)
+fig.text(.08,.951,cfg.get('brand','БРОДОВ НЕТ  /  ЖУРНАЛ ОБЫКНОВЕННЫХ НЕВЕРОЯТНОСТЕЙ'),fontsize=10,color=muted)
 fig.text(.08,.903,cfg['title'],fontproperties=fp,fontsize=32)
 fig.text(.08,.871,cfg['subtitle'],fontsize=12)
 ax=fig.add_axes([.06,.31,.88,.52],facecolor=paper);ax.set_aspect('equal');ax.axis('off');ax.set_xlim(min(x)-1.5,max(x)+1.5);ax.set_ylim(min(y)-1.8,max(y)+1.8)

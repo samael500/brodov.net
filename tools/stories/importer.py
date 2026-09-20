@@ -62,7 +62,7 @@ def import_selection(archive,selection,root=ROOT):
                 frames.append(frame)
             date=timestamp(story.get('date',entries[0][2]['date']))
             title=story.get('title') or next((f['caption'].split('\n')[0][:65] for f in frames if f['caption'].strip()),f'Короткая история · {date:%d.%m.%Y}')
-            description=next((f['caption'][:180] for f in frames if f['caption'].strip()),f'Фотоистория из бортового журнала, {date:%d.%m.%Y}.')
+            description=next((f['caption'][:180] for f in frames if f['caption'].strip()),f'Фотоистория из журнала «Бродов нет», {date:%d.%m.%Y}.')
             tags=story.get('tags',[])
             if any('#цветыикроссовки' in f['caption'].lower() for f in frames) and 'цветыикроссовки' not in tags:tags=[*tags,'цветыикроссовки']
             cover_index=int(story.get('cover_frame',0));cover=frames[cover_index]

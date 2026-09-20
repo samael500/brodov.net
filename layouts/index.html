@@ -1,5 +1,5 @@
 {{ define "main" }}
-<div class="section-label">Записи бортового журнала</div>
+<div class="section-label">Обыкновенные невероятности</div>
 {{ $pages := where site.RegularPages "Section" "posts" }}
 {{ $months := where site.Pages "Type" "short-month" }}
 {{ $pages = $pages | append $months }}

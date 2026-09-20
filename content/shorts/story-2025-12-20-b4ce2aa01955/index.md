@@ -1,6 +1,6 @@
 {
   "title": "Mad Fox Ultra",
-  "description": "Фотоистория из бортового журнала, 20.12.2025.",
+  "description": "Фотоистория из журнала «Бродов нет», 20.12.2025.",
   "social_title": "Mad Fox Ultra",
   "date": "2025-12-20T15:52:07+03:00",
   "draft": false,

@@ -1,18 +1,44 @@
-{{ $image := resources.Get "images/social-base.png" }}
-{{ $font := resources.Get "fonts/literata-card.ttf" }}
-{{ $sans := resources.Get "fonts/pt-sans.ttf" }}
-{{ $text := .Params.social_title | default .Title }}
-{{/* Wrap by words; social_title supports explicit line breaks. */}}
-{{ if not (strings.Contains $text "\n") }}
-  {{ $lines := slice }}{{ $line := "" }}
-  {{ range split $text " " }}
-    {{ $next := strings.TrimSpace (printf "%s %s" $line .) }}
-    {{ if gt (strings.RuneCount $next) 23 }}{{ if $line }}{{ $lines = $lines | append $line }}{{ end }}{{ $line = . }}{{ else }}{{ $line = $next }}{{ end }}
-  {{ end }}
-  {{ if $line }}{{ $lines = $lines | append $line }}{{ end }}
-  {{ $text = delimit $lines "\n" }}
-{{ end }}
-{{ if gt (len (split $text "\n")) 4 }}{{ errorf "Social title too long on %s: set shorter social_title" .RelPermalink }}{{ end }}
-{{ $image = $image.Filter (images.Text $text (dict "font" $font "size" 52 "color" "#35312f" "x" 64 "y" 205 "linespacing" 16)) }}
-{{ $image = $image.Filter (images.Text "БОРТОВОЙ ЖУРНАЛ · BRODOV.NET" (dict "font" $sans "size" 23 "color" "#6a6259" "x" 64 "y" 90)) }}
-{{ return $image }}
+{{- $image := resources.Get "images/social-paper.png" -}}
+{{- $font := resources.Get "fonts/literata-card.ttf" -}}
+{{- $sans := resources.Get "fonts/pt-sans.ttf" -}}
+{{- $logo := resources.Get "images/logo.png" -}}
+{{- if .IsHome -}}
+  {{/* The homepage has its own composition: one logo, one tagline. */}}
+  {{- $mark := $logo.Fit "440x400" -}}
+  {{- $image = $image.Filter (images.Overlay $mark (int (div (sub 1200 $mark.Width) 2)) 36) -}}
+  {{- $image = $image.Filter (images.Text site.Params.tagline (dict "font" $sans "size" 34 "color" "#35312f" "x" 600 "y" 468 "alignx" "center")) -}}
+  {{- $image = $image.Filter (images.Text "brodov.net" (dict "font" $sans "size" 23 "color" "#6a6259" "x" 600 "y" 551 "alignx" "center")) -}}
+{{- else -}}
+  {{/* Only explicitly selected social_image or cover; never infer from body images. */}}
+  {{- $art := false -}}
+  {{- if eq .Type "posts" -}}
+    {{- $path := .Params.social_image | default .Params.cover -}}
+    {{- with $path -}}
+      {{- with $.Resources.GetMatch . -}}{{- $art = . -}}
+      {{- else -}}{{- errorf "Missing social image %s on %s" . $.RelPermalink -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $label := "Бродов нет" -}}
+  {{- $visual := resources.Get "images/logo-illustration.png" -}}
+  {{- if $art -}}{{- $visual = $art -}}{{- end -}}
+  {{- $visual = $visual.Fit "440x460" -}}
+  {{- $image = $image.Filter (images.Overlay $visual (int (sub 950 (div $visual.Width 2))) (int (sub 315 (div $visual.Height 2)))) -}}
+  {{- $text := .Params.social_title | default .Title -}}
+  {{/* Keep intentional breaks, wrapping long lines further instead of shrinking type. */}}
+  {{- $lines := slice -}}
+  {{- range split $text "\n" -}}
+    {{- $line := "" -}}
+    {{- range split . " " -}}
+      {{- $next := strings.TrimSpace (printf "%s %s" $line .) -}}
+      {{- if and $line (gt (strings.RuneCount $next) 21) -}}
+        {{- $lines = $lines | append $line -}}{{- $line = . -}}
+      {{- else -}}{{- $line = $next -}}{{- end -}}
+    {{- end -}}
+    {{- if $line -}}{{- $lines = $lines | append $line -}}{{- end -}}
+  {{- end -}}
+  {{- if gt (len $lines) 5 -}}{{- errorf "Social title too long on %s: set social_title with up to five short lines" .RelPermalink -}}{{- end -}}
+  {{- $image = $image.Filter (images.Text (delimit $lines "\n") (dict "font" $font "size" 52 "color" "#35312f" "x" 64 "y" 168 "linespacing" 14)) -}}
+  {{- $image = $image.Filter (images.Text $label (dict "font" $sans "size" 26 "color" "#6a6259" "x" 64 "y" 78)) -}}
+  {{- $image = $image.Filter (images.Text "brodov.net" (dict "font" $sans "size" 23 "color" "#6a6259" "x" 64 "y" 551)) -}}
+{{- end -}}
+{{- return $image -}}
