@@ -41,4 +41,6 @@
   {{- $image = $image.Filter (images.Text $label (dict "font" $sans "size" 26 "color" "#6a6259" "x" 64 "y" 78)) -}}
   {{- $image = $image.Filter (images.Text "brodov.net" (dict "font" $sans "size" 23 "color" "#6a6259" "x" 64 "y" 551)) -}}
 {{- end -}}
+{{/* Stable content-addressed URL even when Hugo overlay cache keys vary. */}}
+{{- $image = resources.Copy (printf "images/social/%s.png" (crypto.SHA256 $image.Content)) $image -}}
 {{- return $image -}}
