@@ -7,6 +7,6 @@
 {{ with .Params.cover }}{{ $cover := $.Resources.GetMatch . }}{{ with $cover }}{{ $small := .Resize "720x webp" }}{{ $large := .Resize "1440x webp" }}<figure><img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} 720w, {{ $large.RelPermalink }} 1440w" sizes="(max-width: 760px) 90vw, 680px" alt="{{ $.Params.cover_alt }}" width="{{ $small.Width }}" height="{{ $small.Height }}"></figure>{{ else }}{{ errorf "Cover not found: %s" . }}{{ end }}{{ end }}
 <div class="prose">{{ .Content }}</div>
 {{ with site.Params.contact }}<aside class="feedback">Есть что добавить? <a href="{{ . }}">Напиши мне</a>.</aside>{{ end }}
-<a class="back" href="{{ site.Home.RelPermalink }}">← Все записи</a>
+<a class="back" href="{{ `posts/` | relURL }}">← Все записи</a>
 </article>
 {{ end }}

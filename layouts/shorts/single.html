@@ -2,7 +2,7 @@
 {{ $p := . }}{{ $month := false }}{{ range where site.Pages "Type" "short-month" }}{{ if in .Params.storyrefs $p.Path }}{{ $month = . }}{{ end }}{{ end }}
 <article class="short-story" data-story-url="{{ .RelPermalink }}">
 <div class="short-top"><a class="short-back" href="{{ if $month }}{{ $month.RelPermalink }}{{ else }}{{ `shorts/` | relURL }}{{ end }}">← К историям</a><span class="meta">{{ .Date.Format "02.01.2006" }}{{ if .Draft }} · Черновик{{ end }}</span></div>
-{{ if not .Params.hide_title }}<h1 class="short-title">{{ .Title }}</h1>{{ end }}
+{{ if not .Params.hide_title }}<h1 class="short-title">{{ .Title }}</h1>{{ else }}<h1 class="visually-hidden">Фотоистория · {{ .Date | time.Format "2 January 2006" }}</h1>{{ end }}
 <div class="short-frames">{{ range $i, $frame := .Params.frames }}
 <figure class="short-frame" data-frame="{{ $i }}">
 <div class="short-stage">{{ $media := partial "shorts/media.html" (dict "page" $p "frame" $frame) }}<template data-media>{{ $media }}</template><noscript>{{ $media }}</noscript></div>

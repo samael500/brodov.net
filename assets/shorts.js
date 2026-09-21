@@ -23,6 +23,7 @@
     new ResizeObserver(update).observe(reel); update();
   });
   const pause = root => root.querySelectorAll('video').forEach(v => v.pause());
+  let sourceTitle = document.title, sourceURL = location.href;
   let dialog, opener, originalY = 0, currentRoot, modalActive = false, ticket = 0;
   function enhance(root, go, startLast = false) {
     const figures = [...root.querySelectorAll('.short-frame')];
@@ -87,7 +88,10 @@
         dialog.addEventListener('click', e => {if (e.target === dialog && (e.clientX < dialog.getBoundingClientRect().left || e.clientX > dialog.getBoundingClientRect().right)) history.back();});
       }
       if (currentRoot) pause(currentRoot);
-      const close = story.querySelector('.short-back'); close.textContent='← Назад к ленте';
+      const close = story.querySelector('.short-back');
+      const sourcePath = new URL(sourceURL).pathname;
+      close.textContent = /^\/shorts\/\d{4}\/\d{2}\//.test(sourcePath) ? '← К историям месяца' : sourcePath.startsWith('/shorts/') ? '← К историям' : '← К ленте';
+      close.href = sourceURL;
       dialog.replaceChildren(story); currentRoot=story;
       // Frames are detached while selecting the current one; hidden media do not load.
       enhance(story, (next, lastFrame) => show(next,lastFrame), last);
@@ -95,20 +99,20 @@
       if (historyMode === 'push') history.pushState({shortViewer:true,url},'',url);
       else if (historyMode === 'replace') history.replaceState({shortViewer:true,url},'',url);
       if (!dialog.open) {document.documentElement.style.overflow='hidden';dialog.showModal();}
-      modalActive=true;dialog.scrollTop=0;close.focus();
+      modalActive=true;document.title=parsed.title;dialog.scrollTop=0;close.focus();
       document.dispatchEvent(new CustomEvent('brodov:pageview', {detail:{url:location.href,title:parsed.title}}));
     } catch (_) {if (ownTicket === ticket) location.assign(url);}
   }
   function closeModal() {
     ++ticket;if (!dialog || !dialog.open) return;
-    pause(dialog);dialog.close();dialog.replaceChildren();document.documentElement.style.overflow='';modalActive=false;currentRoot=null;
+    pause(dialog);dialog.close();dialog.replaceChildren();document.documentElement.style.overflow='';modalActive=false;currentRoot=null;document.title=sourceTitle;
     document.dispatchEvent(new CustomEvent('brodov:pageview', {detail:{url:location.href,title:document.title}}));
     window.scrollTo(0,originalY);if (opener?.isConnected) opener.focus({preventScroll:true});
   }
   document.addEventListener('click', e => {
     const link=e.target.closest('a[data-story-link]');
     if (!link || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button !== 0 || !window.HTMLDialogElement) return;
-    e.preventDefault();opener=link;originalY=window.scrollY;show(link.href,false,'push');
+    e.preventDefault();opener=link;originalY=window.scrollY;sourceTitle=document.title;sourceURL=location.href;show(link.href,false,'push');
   });
   window.addEventListener('popstate', e => {if (e.state?.shortViewer) show(e.state.url,false,'none'); else closeModal();});
   const direct = document.querySelector('main .short-story');

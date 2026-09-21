@@ -1,17 +1,9 @@
 {{ define "main" }}
-{{ $pages := where site.RegularPages "Section" "posts" }}
-{{ $months := where site.Pages "Type" "short-month" }}
-{{ $pages = $pages | append $months }}
-{{ $entries := slice }}{{ range $pages }}{{ $key := printf "%020d|%s|%s" .Date.Unix .Type .Path }}{{ $entries = $entries | append (dict "key" $key "page" .) }}{{ end }}
-{{ $ordered := slice }}{{ range sort $entries "key" "desc" }}{{ $ordered = $ordered | append .page }}{{ end }}
-{{ $pager := .Paginate $ordered }}
+{{ $pager := partial "pager.html" . }}
 {{ range $pager.Pages }}
-{{ if eq .Type "short-month" }}{{ partial "shorts/month.html" . }}{{ else }}
-{{ $page := . }}
-<article class="entry{{ with .Params.preview_image }} has-preview{{ end }}">
-{{ with .Params.preview_image }}{{ $preview := $page.Resources.GetMatch . }}{{ with $preview }}{{ $small := .Resize "600x webp" }}{{ $large := .Resize "1000x webp" }}
-<a class="entry-illustration{{ if hasPrefix $page.Params.preview_image "illustrations/" }} culinary-preview{{ end }}" href="{{ $page.RelPermalink }}" aria-label="{{ $page.Title }}"><img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} 600w, {{ $large.RelPermalink }} 1000w" sizes="(max-width: 600px) calc(100vw - 44px), 300px" alt="{{ $page.Params.preview_image_alt }}" width="{{ $small.Width }}" height="{{ $small.Height }}" loading="lazy" decoding="async"></a>
-{{ else }}{{ errorf "Preview image not found: %s" . }}{{ end }}{{ end }}
+{{ if eq .Type "short-month" }}{{ partial "shorts/month.html" (dict "page" .) }}{{ else }}
+<article class="entry{{ if .Params.preview_image }} has-preview{{ end }}">
+{{ partial "entry-preview.html" (dict "page" .) }}
 <div class="entry-copy">
 <div class="meta">{{ .Date.Format "02.01.2006" }} · {{ .Params.kind }}{{ if .Draft }} · Черновик{{ end }}</div>
 <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>

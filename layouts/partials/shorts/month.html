@@ -1,5 +1,9 @@
+{{ $compact := .compact }}{{ with .page }}
+{{ $heading := .Title }}{{ if $compact }}{{ $heading = strings.FirstUpper (replaceRE "^А что за поворотом · " "" $heading) }}{{ end }}
 {{ $stories := partial "shorts/stories.html" . }}
 <section class="short-month" aria-label="{{ .Title }}" data-carousel>
-<div class="short-row"><h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>{{ if gt (len $stories) 1 }}<div class="short-arrows" hidden><button class="short-round" data-scroll="-1" aria-label="Предыдущие истории">←</button><button class="short-round" data-scroll="1" aria-label="Следующие истории">→</button></div>{{ end }}</div>
+<div class="short-row"><h2><a href="{{ .RelPermalink }}">{{ $heading }}</a></h2>{{ if gt (len $stories) 1 }}<div class="short-arrows" hidden><button class="short-round" data-scroll="-1" aria-label="Предыдущие истории">←</button><button class="short-round" data-scroll="1" aria-label="Следующие истории">→</button></div>{{ end }}</div>
 <div class="short-reel">{{ range first 8 $stories }}{{ partial "shorts/card.html" . }}{{ end }}{{ if gt (len $stories) 8 }}<a class="short-card short-all" href="{{ .RelPermalink }}">Весь {{ .Params.monthname }}<span>{{ partial "shorts/count.html" (len $stories) }} →</span></a>{{ end }}</div>
 <p class="short-count">{{ partial "shorts/count.html" (len $stories) }}</p></section>
+
+{{ end }}

@@ -1,0 +1,15 @@
+{{ $pager := false }}
+{{ if .IsHome }}
+  {{ $pages := where site.RegularPages "Section" "posts" }}
+  {{ $pages = $pages | append (where site.Pages "Type" "short-month") }}
+  {{ $entries := slice }}{{ range $pages }}{{ $entries = $entries | append (dict "key" (printf "%020d|%s|%s" .Date.Unix .Type .Path) "page" .) }}{{ end }}
+  {{ $ordered := slice }}{{ range sort $entries "key" "desc" }}{{ $ordered = $ordered | append .page }}{{ end }}
+  {{ $pager = .Paginate $ordered }}
+{{ else if and (not .IsPage) (eq .Type "shorts") }}
+  {{ $pager = .Paginate (where site.Pages "Type" "short-month").ByDate.Reverse }}
+{{ else if eq .Type "short-year" }}
+  {{ $pager = .Paginate (where .Pages "Type" "short-month").ByDate.Reverse }}
+{{ else if eq .Type "short-month" }}
+  {{ $pager = .Paginate (partial "shorts/stories.html" .) }}
+{{ end }}
+{{ return $pager }}

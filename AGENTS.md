@@ -1,3 +1,16 @@
+# Repository workflow
+
+- All new changes must be made on `dev`, never directly on the production branch.
+- The production/default branch is currently `main` (called “master” by the user).
+  Do not rename it without an explicit request.
+- Before merging, open a pull request from `dev` to `main` for the repository
+  owner's review. Run relevant checks and describe the concrete changes in the PR.
+- Never merge or push directly to `main` to bypass the owner's review.
+- An instruction to publish starts the PR/review workflow; it does not waive review.
+- Merge only after the owner's review and explicit approval. Deploy only the
+  approved production branch after merge, never `dev` or an unreviewed commit.
+- Preserve unrelated local changes; stage only files belonging to the current task.
+
 # Brand invariants
 
 Persistent product, editorial, illustration, workflow, and roadmap context is
