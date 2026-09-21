@@ -8,6 +8,13 @@ preview_image: "route-preview.png"
 preview_image_alt: "Маршрут Kildin Ultra 2023 по сопкам и озёрам у Териберки"
 social_image: "route-preview.png"
 social_image_credit: "© OpenStreetMap contributors"
+gallery:
+  - src: "on-the-course.jpg"
+    alt: "На каменистой тропе среди озёр и тундры, в красном жилете и с разведёнными руками"
+  - src: "race-kit.jpg"
+    alt: "Стартовый номер 5215 с именем Максим и экипировка Kildin Ultra"
+  - src: "race-result.jpg"
+    alt: "Карточка результата Kildin Ultra: Максим Скороход, 11:45:06, темп 13:01 на километр"
 ---
 
 <!--
@@ -146,3 +153,5 @@ tldr: (Моё сообщение из чатика забега)
 Съел сникерс. Отдуплился. Собрался. Поел гречки. Сел в автобус. Два с небольшим часа. Мурманск.
 
 13.01'/км — Этот темп, у нас бегом зовётся.
+
+{{< photo-gallery >}}

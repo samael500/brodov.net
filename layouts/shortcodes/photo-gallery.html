@@ -1,0 +1,23 @@
+{{ $items := index .Page.Params (.Get "items" | default "gallery") }}
+{{ with $items }}
+<section class="photo-gallery" data-photo-gallery role="region" aria-label="Фотографии к статье" aria-roledescription="карусель">
+  <div class="photo-gallery-track" tabindex="0" aria-label="Фотографии; стрелки влево и вправо переключают кадры">
+  {{ range . }}
+    {{ $photo := $.Page.Resources.GetMatch .src }}
+    {{ if not $photo }}{{ errorf "Gallery image missing: %s in %s" .src $.Page.File.Path }}{{ end }}
+    {{ $small := $photo.Resize "720x webp" }}{{ $large := $photo.Resize "1440x webp" }}
+    <figure class="photo-gallery-slide">
+      <a href="{{ $photo.RelPermalink }}" aria-label="Открыть крупно: {{ .alt }}">
+        <img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} 720w, {{ $large.RelPermalink }} 1440w" sizes="(max-width: 760px) 90vw, 660px" width="{{ $small.Width }}" height="{{ $small.Height }}" alt="{{ .alt }}" loading="lazy" decoding="async">
+      </a>
+      {{ with .caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+    </figure>
+  {{ end }}
+  </div>
+  <div class="photo-gallery-controls" hidden>
+    <button type="button" class="short-round" data-photo-prev aria-label="Предыдущая фотография">←</button>
+    <span class="photo-gallery-count" aria-live="polite" aria-atomic="true"></span>
+    <button type="button" class="short-round" data-photo-next aria-label="Следующая фотография">→</button>
+  </div>
+</section>
+{{ end }}

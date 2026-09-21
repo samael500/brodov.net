@@ -35,3 +35,8 @@
 {{ $schema := dict "@context" "https://schema.org" "@type" "BlogPosting" "headline" .Title "description" $description "image" (slice $image.Permalink) "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00") "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00") "mainEntityOfPage" .Permalink "author" (dict "@type" "Person" "name" site.Params.author) }}
 <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
 {{ end }}
+
+{{ if .HasShortcode "photo-gallery" }}
+{{ $galleryCSS := resources.Get "photo-gallery.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $galleryCSS.RelPermalink }}">
+{{ $galleryJS := resources.Get "photo-gallery.js" | minify | fingerprint }}<script src="{{ $galleryJS.RelPermalink }}" defer></script>
+{{ end }}
