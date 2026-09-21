@@ -14,7 +14,7 @@
   {{- if eq .Type "posts" -}}
     {{- $path := .Params.social_image | default .Params.cover -}}
     {{- with $path -}}
-      {{- with $.Resources.GetMatch . -}}{{- $art = . -}}
+      {{- with ($.Resources.GetMatch . | default (resources.Get .)) -}}{{- $art = . -}}
       {{- else -}}{{- errorf "Missing social image %s on %s" . $.RelPermalink -}}{{- end -}}
     {{- end -}}
   {{- end -}}
@@ -26,7 +26,7 @@
   {{- with .Params.social_image_credit -}}
     {{- $image = $image.Filter (images.Text . (dict "font" $sans "size" 16 "color" "#6a6259" "x" 950 "y" 551 "alignx" "center")) -}}
   {{- end -}}
-  {{- $text := .Params.social_title | default .Title -}}
+  {{- $text := .Params.social_title | default (partial "page-title.html" .) -}}
   {{/* Keep intentional breaks, wrapping long lines further instead of shrinking type. */}}
   {{- $lines := slice -}}
   {{- range split $text "\n" -}}

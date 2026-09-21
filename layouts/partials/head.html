@@ -1,20 +1,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{{ $title := .Title }}{{ if not .IsHome }}{{ $title = printf "%s — %s" .Title site.Title }}{{ end }}
+{{ $pageTitle := partial "page-title.html" . }}
+{{ $title := $pageTitle }}{{ $url := .Permalink }}
+{{ $pager := partial "pager.html" . }}
+{{ $number := 1 }}{{ with $pager }}{{ $number = .PageNumber }}{{ $url = .URL | absURL }}{{ end }}
+{{ if gt $number 1 }}{{ $title = printf "%s — страница %d" $title $number }}{{ end }}
+{{ if not .IsHome }}{{ $title = printf "%s — %s" $title site.Title }}{{ end }}
 {{ $description := .Description | default site.Params.description }}
-{{ $socialTitle := .Params.social_title | default .Title | replaceRE "\n" " " }}
+{{ $socialTitle := .Params.social_title | default $pageTitle | replaceRE "\n" " " }}
+{{ if gt $number 1 }}{{ $socialTitle = printf "%s — страница %d" $socialTitle $number }}{{ end }}
 {{ $socialDescription := .Params.social_description | default $description }}
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
-<link rel="canonical" href="{{ .Permalink }}">
-{{ if or .Draft site.Params.noindex }}<meta name="robots" content="noindex, nofollow">{{ end }}
+<link rel="canonical" href="{{ $url }}">
+{{ if or .Draft site.Params.noindex (eq .Kind "404") }}<meta name="robots" content="noindex, nofollow">{{ end }}
 <link rel="alternate" type="application/rss+xml" title="Бродов нет" href="{{ `index.xml` | absURL }}">
 {{ $css := resources.Get "style.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ $shortCSS := resources.Get "shorts.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $shortCSS.RelPermalink }}">
 <link rel="icon" type="image/svg+xml" href="{{ `favicon.svg` | relURL }}">
 <meta property="og:title" content="{{ $socialTitle }}">
 <meta property="og:description" content="{{ $socialDescription }}">
-<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:url" content="{{ $url }}">
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">

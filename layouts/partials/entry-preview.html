@@ -1,0 +1,8 @@
+{{ $page := .page }}{{ $compact := .compact }}
+{{ $path := $page.Params.preview_image }}{{ if $compact }}{{ $path = $path | default $page.Params.cover }}{{ end }}
+{{ with $path }}{{ $image := $page.Resources.GetMatch . }}
+{{ with $image }}
+{{ $width := 600 }}{{ $largeWidth := 1000 }}{{ if $compact }}{{ $width = 320 }}{{ $largeWidth = 600 }}{{ end }}
+{{ $small := .Resize (printf "%dx webp" $width) }}{{ $large := .Resize (printf "%dx webp" $largeWidth) }}
+<a class="entry-illustration{{ if hasPrefix $path "illustrations/" }} culinary-preview{{ end }}" href="{{ $page.RelPermalink }}" aria-label="{{ $page.Title }}"><img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} {{ $width }}w, {{ $large.RelPermalink }} {{ $largeWidth }}w" sizes="{{ if $compact }}(max-width: 600px) 96px, 144px{{ else }}(max-width: 600px) calc(100vw - 44px), 300px{{ end }}" alt="{{ $page.Params.preview_image_alt | default $page.Params.cover_alt }}" width="{{ $small.Width }}" height="{{ $small.Height }}" loading="{{ if $.eager }}eager{{ else }}lazy{{ end }}" decoding="async"></a>
+{{ else }}{{ errorf "Preview image not found: %s" . }}{{ end }}{{ end }}

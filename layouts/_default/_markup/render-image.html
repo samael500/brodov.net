@@ -1,5 +1,8 @@
 {{ $image := .Page.Resources.GetMatch .Destination }}
 {{ with $image }}
 {{ $small := .Resize "720x webp" }}{{ $large := .Resize "1440x webp" }}
+{{ $portrait := and (in (slice "jpg" "jpeg") .MediaType.SubType) (gt .Height .Width) (not (hasPrefix $.Destination "illustrations/")) }}
+{{ if $portrait }}<a class="portrait-photo" href="{{ .RelPermalink }}" aria-label="Открыть крупно: {{ $.Text }}">{{ end }}
 {{ $culinary := hasPrefix $.Destination "illustrations/" }}{{ if $culinary }}<figure class="culinary-figure">{{ end }}<img{{ if $culinary }} class="culinary-illustration"{{ end }} src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} 720w, {{ $large.RelPermalink }} 1440w" sizes="(max-width: 760px) 90vw, 660px" alt="{{ $.Text }}" width="{{ $small.Width }}" height="{{ $small.Height }}" loading="lazy" decoding="async">{{ if $culinary }}<figcaption>{{ $.Text }}</figcaption></figure>{{ end }}
+{{ if $portrait }}</a>{{ end }}
 {{ else }}<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" loading="lazy" decoding="async">{{ end }}

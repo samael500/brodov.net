@@ -1,2 +1,2 @@
 {{ define "main" }}<h1 class="list-title">{{ .Title }}</h1>{{ $stories := partial "shorts/stories.html" . }}<p class="short-count">{{ partial "shorts/count.html" (len $stories) }}</p>
-{{ $pager := .Paginate $stories }}<div class="short-grid">{{ range $pager.Pages }}{{ partial "shorts/card.html" . }}{{ end }}</div>{{ partial "pagination.html" $pager }}<a class="back" href="{{ `shorts/` | relURL }}">← Все месяцы</a>{{ end }}
+{{ $pager := partial "pager.html" . }}<div class="short-grid">{{ range $pager.Pages }}{{ partial "shorts/card.html" . }}{{ end }}</div>{{ partial "pagination.html" $pager }}<a class="back" href="{{ `shorts/` | relURL }}">← Все месяцы</a>{{ end }}
