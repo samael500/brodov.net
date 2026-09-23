@@ -43,13 +43,13 @@ if args.background:
 if args.social_base:
     assert 'tagline' in args.hide, 'Hide the archived tagline for current branding'
     root = MASTER.parent.parent
-    paper = Image.new('RGBA', (1200, 630), '#faf8f3')
+    paper = Image.new('RGBA', (1200, 630), '#fffdf9')
     grain = Image.open(root / 'static/images/paper-grain.png').convert('RGBA')
     texture = Image.new('RGBA', paper.size)
     for y in range(0, paper.height, grain.height):
         for x in range(0, paper.width, grain.width):
             texture.alpha_composite(grain, (x, y))
-    texture.putalpha(texture.getchannel('A').point(lambda a: round(a * .018)))
+    texture.putalpha(texture.getchannel('A').point(lambda a: round(a * .004)))
     paper.alpha_composite(texture)
     canvas = paper.convert('RGB')
 args.output.parent.mkdir(parents=True, exist_ok=True)
