@@ -1,0 +1,3 @@
+[submodule "vendor/sun-calendar"]
+	path = vendor/sun-calendar
+	url = https://github.com/samael500/sun-calendar.git

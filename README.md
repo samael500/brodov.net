@@ -36,14 +36,15 @@ tagline сохранён только в архивном мастере v1. У�
 
 Отдельный новый блог на Hugo. Старый репозиторий и maks.live не изменены.
 Сборка проверена с Hugo 0.166.0. Не требует Node.js, Python или Go toolchain
-для обычного запуска: достаточно готового бинарника Hugo. Python 3 нужен
-только для дополнительной проверки `make check`.
+для обычного запуска: достаточно готового бинарника Hugo. Python 3 и зависимости tools/requirements-build.txt нужны для сборки и календарей.
 
 ## Запуск
 
 Установить Hugo версии из `.hugo-version` (https://gohugo.io/installation/).
 
 ```sh
+git submodule update --init --recursive
+python3 -m pip install -r tools/requirements-build.txt
 make dev                  # предпросмотр с черновиками, localhost:1313
 hugo new content posts/my-note/index.md
 make build                # публичная сборка в public/, без черновиков
@@ -117,13 +118,12 @@ Recipe JSON-LD пока не добавлен. Есть BlogPosting; не выд
 ## GitHub Pages
 
 Workflow check.yml автоматически собирает и проверяет каждый push/PR.
-deploy.yml публикует сайт в GitHub Pages только по ручному запуску. Репозиторий
+deploy.yml публикует только main: по ручному запуску и ежедневно в 05:43 Москвы для обновления календарей. Репозиторий
 `samael500/brodov.net`, custom domain и HTTPS настроены; production доступен на
 `https://brodov.net/`. Push сам по себе не публикует новую версию. CSS
 предполагает корень домена (не проектный подпуть github.io/repo/).
 
-Автоматический deploy при push можно добавить позже отдельным решением. Сейчас
-публикация остаётся ручной. Генерируемый HTML в Git коммитить не требуется.
+Push не запускает deploy. Ежедневная публикация собирает только утверждённый main, не dev. Генерируемый HTML в Git коммитить не требуется.
 
 ## Почему Hugo и где нужен Go
 
@@ -170,3 +170,19 @@ python3 scripts/logo.py --hide tagline --social-base --output assets/images/soci
 Fit сохраняет изображение целиком.
 Производные находятся в Hugo assets: URL логотипа получает fingerprint,
 URL социальных карточек меняется при пересборке текста или основы.
+
+
+## Солнечные календари
+
+Страница `/sun-calendar/` и отдельные ICS для 116 городов России, Украины и Беларуси. Исходники в отдельном
+репозитории https://github.com/samael500/sun-calendar, подключённом как submodule
+`vendor/sun-calendar`. `make` генерирует файлы в игнорируемый `static/sun-calendar/`
+перед Hugo. Календари охватывают 6 месяцев назад и 6 вперёд; даты пересчитываются
+при каждой сборке в часовом поясе города. Данные/карта/шрифты локальные.
+
+Обновление кода генератора: поменять commit submodule на dev, проверить `make check`,
+провести PR/review. Ежедневная сборка не подтягивает непроверенный main генератора.
+GitHub может отключить schedule после 60 дней отсутствия активности; при этом
+последняя версия календарей остаётся доступной. Проверяйте Actions, при необходимости
+включайте workflow снова. Старую московскую подписку надо заменить новой ссылкой:
+`https://brodov.net/sun-calendar/moscow.ics`.

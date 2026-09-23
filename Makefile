@@ -1,12 +1,13 @@
 HUGO ?= hugo
-.PHONY: dev build preview check
-dev:
+.PHONY: dev build preview check sun-calendar
+dev preview: SUN_CALENDAR_FLAGS = --noindex
+dev: sun-calendar
 	python3 tools/stories/content.py --preview
 	$(HUGO) server --environment preview --buildDrafts --disableFastRender
-build:
+build: sun-calendar
 	python3 tools/stories/content.py
 	$(HUGO) --environment production --cleanDestinationDir --minify
-preview:
+preview: sun-calendar
 	python3 tools/stories/content.py --preview
 	$(HUGO) --environment preview --buildDrafts --cleanDestinationDir --destination preview --baseURL http://localhost:8765/
 check: build
@@ -27,3 +28,6 @@ stories-setup:
 	tools/.stories-venv/bin/pip install -r tools/requirements-stories.txt
 stories-test:
 	tools/.stories-venv/bin/python -m unittest discover -s tests -p 'test_stories*.py'
+
+sun-calendar:
+	python3 vendor/sun-calendar/generate.py --output-dir static/sun-calendar $(SUN_CALENDAR_FLAGS)
