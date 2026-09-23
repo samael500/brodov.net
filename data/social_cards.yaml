@@ -1,0 +1,26 @@
+# Composition-only line breaks; page titles and article text remain unchanged.
+/posts/pizza:
+  lines:
+    - Квадратная пицца
+    - по рецепту
+    - из детства
+/posts/russian-trail:
+  lines:
+    - 'Русская тропа:'
+    - 111 километров
+    - полей и бродов
+/posts/not-running:
+  lines:
+    - Не пошёл бегать,
+    - потому что…
+/posts/night-swim:
+  lines:
+    - Ночной заплыв
+    - навстречу луне
+/posts/kildin-ultra:
+  lines:
+    - 'Kildin Ultra:'
+    - DNF с медалью
+/posts/plogging:
+  lines:
+    - Бежать и убирать

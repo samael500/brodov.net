@@ -34,8 +34,9 @@ The approved logo is a fixed asset, not a generation prompt.
 - `master.svg` contains raster alpha masks. Do not describe it as a vector
   tracing. True vectorization is a separate task requiring visual approval.
 - Approved page palette (22.09.2026, “Чуть нежнее”): ink #35312F, paper #FFFDF9,
-  secondary text #77675B, dividers #E9DED3. Existing logo, maps and approved OG
-  assets keep their original colors (including #FAF8F3); do not recolor them.
+  secondary text #77675B, dividers #E9DED3. OG compositions also use #FFFDF9
+  as approved on 23.09.2026. Existing logo and map/image pixels keep their
+  original colors (including #FAF8F3); do not recolor the source artwork.
 - The pizza article text and four illustrations are approved and published at
   `/posts/pizza/` with date 2026-09-13. Do not change its text, date, URL, or
   metadata as part of unrelated work.
