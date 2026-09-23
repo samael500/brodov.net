@@ -68,7 +68,7 @@ for path in pages:
         if re.fullmatch(r'https://mc\.yandex\.ru/watch/[1-9][0-9]*', url):
             assert not preview, (path, 'Analytics leaked into preview')
             continue
-        asset = root / unquote(urlparse(url).path.lstrip('/'))
+        asset = root / unquote(urlparse(urljoin(p.canonical, url)).path.lstrip('/'))
         assert asset.is_file(), (path, 'Missing asset', asset)
     if p.schema: assert json.loads(p.schema)['@type'] == 'BlogPosting'
     if preview: assert p.meta.get('robots') == 'noindex, nofollow', path

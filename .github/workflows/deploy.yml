@@ -1,6 +1,8 @@
 name: Publish to GitHub Pages
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '43 2 * * *'
 permissions:
   contents: read
   pages: write
@@ -10,12 +12,15 @@ concurrency:
   cancel-in-progress: false
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Install pinned Hugo
         run: |
           VERSION=$(cat .hugo-version)
