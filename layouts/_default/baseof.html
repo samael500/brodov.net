@@ -3,7 +3,7 @@
 <head>
   {{ partial "head.html" . }}
 </head>
-<body>
+<body class="brodov-scope">
 {{ partial "metrika.html" . }}
 <a class="skip" href="#content">К содержимому</a>
 <div class="page">
@@ -14,7 +14,7 @@
   <div class="intro"><p class="brand-tagline">{{ site.Params.tagline }}</p><p>Истории из лесов и болот,<br>заметки с кухни и рабочего стола.</p><p>Всё начинается с мысли:<br><em>«А почему бы и да…»</em></p></div>
 </header>
 {{ else }}
-<header class="compact"><a href="{{ site.Home.RelPermalink }}">Бродов нет</a><span>{{ site.Params.tagline }}</span></header>
+<header class="compact brodov-compact-header"><a href="{{ site.Home.RelPermalink }}">Бродов нет</a><span>{{ site.Params.tagline }}</span></header>
 {{ end }}
 <nav aria-label="Основное меню"><a href="{{ `posts/` | relURL }}"{{ if eq .RelPermalink (`posts/` | relURL) }} aria-current="page"{{ else if eq .Section "posts" }} aria-current="location"{{ end }}>Все записи</a><a href="{{ `shorts/` | relURL }}"{{ if eq .Section "shorts" }} aria-current="{{ if and (eq .RelPermalink (`shorts/` | relURL)) (eq .Paginator.PageNumber 1) }}page{{ else }}location{{ end }}"{{ end }}>А что за поворотом</a><a href="{{ `sun-calendar/` | relURL }}">Солнце</a><a href="{{ `index.xml` | relURL }}">RSS</a></nav>
 <main id="content">{{ block "main" . }}{{ end }}</main>

@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
       - name: Install pinned Hugo
         run: |
           VERSION=$(cat .hugo-version)
@@ -17,7 +17,7 @@ jobs:
           sudo install /tmp/hugo /usr/local/bin/hugo
       - run: python3 -m pip install -r tools/requirements-stories.txt
       - run: python3 -m unittest discover -s tests -p 'test_stories*.py'
-      - run: python3 -m unittest discover -s vendor/sun-calendar -p test_generate.py
+      - run: python3 -m unittest discover -s vendor/sun-calendar -p 'test_*.py'
       - run: make check
       - uses: actions/upload-artifact@v4
         with:

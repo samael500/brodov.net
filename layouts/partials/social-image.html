@@ -1,3 +1,4 @@
+{{- $tokens := hugo.Data.brodov_style -}}
 {{- $image := resources.Get "images/social-paper.png" -}}
 {{- $font := resources.Get "fonts/literata-card.ttf" -}}
 {{- $sans := resources.Get "fonts/pt-sans.ttf" -}}
@@ -6,8 +7,8 @@
   {{/* The homepage retains its own composition and the unchanged logo. */}}
   {{- $mark := $logo.Fit "440x400" -}}
   {{- $image = $image.Filter (images.Overlay $mark (int (div (sub 1200 $mark.Width) 2)) 36) -}}
-  {{- $image = $image.Filter (images.Text site.Params.tagline (dict "font" $sans "size" 34 "color" "#35312f" "x" 600 "y" 468 "alignx" "center")) -}}
-  {{- $image = $image.Filter (images.Text "brodov.net" (dict "font" $sans "size" 23 "color" "#77675b" "x" 600 "y" 551 "alignx" "center")) -}}
+  {{- $image = $image.Filter (images.Text site.Params.tagline (dict "font" $sans "size" 34 "color" $tokens.ink "x" 600 "y" 468 "alignx" "center")) -}}
+  {{- $image = $image.Filter (images.Text "brodov.net" (dict "font" $sans "size" 23 "color" $tokens.muted "x" 600 "y" 551 "alignx" "center")) -}}
 {{- else -}}
   {{- $composition := index site.Data.social_cards .Path | default dict -}}
   {{- $imageX := $composition.image_x | default 672 -}}
@@ -28,7 +29,7 @@
   {{- $visual = $visual.Fit (printf "%dx542" $imageWidth) -}}
   {{- $image = $image.Filter (images.Overlay $visual (int (sub $imageCenter (div $visual.Width 2))) (int (add 44 (div (sub 542 $visual.Height) 2)))) -}}
   {{- with .Params.social_image_credit -}}
-    {{- $image = $image.Filter (images.Text . (dict "font" $sans "size" 16 "color" "#77675b" "x" $imageCenter "y" 592 "alignx" "center")) -}}
+    {{- $image = $image.Filter (images.Text . (dict "font" $sans "size" 16 "color" $tokens.muted "x" $imageCenter "y" 592 "alignx" "center")) -}}
   {{- end -}}
   {{- $text := .Params.social_title | default (partial "page-title.html" .) -}}
   {{- $lines := $composition.lines | default slice -}}
@@ -48,10 +49,10 @@
   {{- if gt (len $lines) 5 -}}{{- errorf "Social title too long on %s: set composition lines in data/social_cards.yaml" .RelPermalink -}}{{- end -}}
   {{/* Explicit 69px baseline step = 50px × 1.38; no font-metric-dependent multiline spacing. */}}
   {{- range $i, $line := $lines -}}
-    {{- $image = $image.Filter (images.Text $line (dict "font" $font "size" 50 "color" "#35312f" "x" 60 "y" (add 183 (mul $i 69)))) -}}
+    {{- $image = $image.Filter (images.Text $line (dict "font" $font "size" 50 "color" $tokens.ink "x" 60 "y" (add 183 (mul $i 69)))) -}}
   {{- end -}}
-  {{- $image = $image.Filter (images.Text "Бродов нет" (dict "font" $sans "size" 26 "color" "#8b593d" "x" 60 "y" 50)) -}}
-  {{- $image = $image.Filter (images.Text "brodov.net" (dict "font" $sans "size" 23 "color" "#77675b" "x" 60 "y" 553)) -}}
+  {{- $image = $image.Filter (images.Text "Бродов нет" (dict "font" $sans "size" 26 "color" $tokens.accent "x" 60 "y" 50)) -}}
+  {{- $image = $image.Filter (images.Text "brodov.net" (dict "font" $sans "size" 23 "color" $tokens.muted "x" 60 "y" 553)) -}}
 {{- end -}}
 {{/* Content-addressed URL changes with rendered bytes, not Hugo cache keys. */}}
 {{- $image = resources.Copy (printf "images/social/%s.png" (crypto.SHA256 $image.Content)) $image -}}

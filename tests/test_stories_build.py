@@ -29,6 +29,7 @@ class BuildTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as temp:
    root=Path(temp)
    for name in ('assets','layouts','static'):shutil.copytree(ROOT/name,root/name)
+   shutil.copytree(ROOT/'vendor/brodov-style',root/'vendor/brodov-style',ignore=shutil.ignore_patterns('.git'))
    (root/'hugo.toml').write_text((ROOT/'hugo.toml').read_text().replace('pagerSize = 10','pagerSize = 3'))
    (root/'content/shorts').mkdir(parents=True);shutil.copy2(ROOT/'content/shorts/_index.md',root/'content/shorts/_index.md')
    def story(slug,date,draft=False):
@@ -45,7 +46,7 @@ class BuildTests(unittest.TestCase):
     page(root/f'content/posts/post-{i}/index.md',{'title':f'Пост {i}','date':date,'description':'Тестовая статья','draft':False})
    now=dt.datetime(2026,9,19,tzinfo=dt.timezone.utc);groups=prepare(root,now=now)
    self.assertEqual(len(groups['2026-09']),2)
-   def build():subprocess.run(['hugo','--source',str(root),'--cleanDestinationDir'],check=True,capture_output=True)
+   def build():subprocess.run(['hugo','--source',str(root),'--cleanDestinationDir'],check=True,capture_output=True,timeout=120)
    build();public=root/'public'
    pages=[public/'index.html']+sorted((public/'page').glob('*/index.html'))
    urls=[]

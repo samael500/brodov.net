@@ -12,6 +12,7 @@ preview: sun-calendar
 	$(HUGO) --environment preview --buildDrafts --cleanDestinationDir --destination preview --baseURL http://localhost:8765/
 check: build
 	python3 scripts/check.py public
+	python3 scripts/check-style.py public
 
 ROUTE ?= russian-trail
 ROUTE_PYTHON ?= tools/route-generator/.venv/bin/python
@@ -30,4 +31,6 @@ stories-test:
 	tools/.stories-venv/bin/python -m unittest discover -s tests -p 'test_stories*.py'
 
 sun-calendar:
-	python3 vendor/sun-calendar/generate.py --output-dir static/sun-calendar $(SUN_CALENDAR_FLAGS)
+	@test -f vendor/brodov-style/package.json || (echo "Missing brodov-style: run git submodule update --init --recursive"; exit 1)
+	python3 vendor/brodov-style/scripts/check.py
+	python3 vendor/sun-calendar/generate.py --output-dir static/sun-calendar --style-dir "$(CURDIR)/vendor/brodov-style" $(SUN_CALENDAR_FLAGS)

@@ -19,10 +19,10 @@ questions when updating it.
 
 The approved logo is a fixed asset, not a generation prompt.
 
-- `design/logo-master/` is immutable v1. Never overwrite its PNG, layers, SVG,
+- `vendor/brodov-style/brand/logo-master/` is immutable v1. Never overwrite its PNG, layers, SVG,
   or manifest. Verify `sha256.json` before deriving assets.
 - NEVER send the master to an image generator for recoloring, background
-  changes, resizing, removing text, or compositing. Use `scripts/logo.py` or
+  changes, resizing, removing text, or compositing. Use `vendor/brodov-style/scripts/logo.py` or
   the existing named SVG layers. Preserve geometry and alpha coverage.
 - Exploratory generative variants are separate candidates and cannot replace
   the master without explicit approval of the new drawing by the user.

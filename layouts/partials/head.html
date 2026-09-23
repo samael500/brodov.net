@@ -15,6 +15,7 @@
 <link rel="canonical" href="{{ $url }}">
 {{ if or .Draft site.Params.noindex (eq .Kind "404") }}<meta name="robots" content="noindex, nofollow">{{ end }}
 <link rel="alternate" type="application/rss+xml" title="Бродов нет" href="{{ `index.xml` | absURL }}">
+<link rel="stylesheet" href="{{ `brodov-style/css/brodov.css` | relURL }}">
 {{ $css := resources.Get "style.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ $shortCSS := resources.Get "shorts.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $shortCSS.RelPermalink }}">
 <link rel="icon" type="image/svg+xml" href="{{ `favicon.svg` | relURL }}">

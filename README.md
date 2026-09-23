@@ -6,12 +6,12 @@ Hugo-блог Максима Скорохода: <https://brodov.net/>. Усто
 
 ## Зафиксированный логотип
 
-Мастер v1: `design/logo-master/master.png` — прозрачный RGBA PNG,
+Мастер v1: `vendor/brodov-style/brand/logo-master/master.png` — прозрачный RGBA PNG,
 полученный программным удалением бумаги из утверждённого рисунка.
 `design/logo-approved-paper.png` сохраняет исходник с подложкой.
 Рисунок генератором повторно не создавался.
 
-В `design/logo-master/` лежат три точных слоя: `illustration.png`,
+В `vendor/brodov-style/brand/logo-master/` лежат три точных слоя: `illustration.png`,
 `wordmark.png`, `tagline.png`, их координаты в `layers.json` и контрольные
 суммы в `sha256.json`. `master.svg` — редактируемый контейнер с растровыми
 альфа-масками (не векторная трассировка); группы illustration, wordmark,
@@ -20,9 +20,9 @@ tagline можно скрывать и перекрашивать, background �
 Правила работы с мастером закреплены в AGENTS.md. Для экспорта нужен Pillow:
 
 ```sh
-python3 scripts/logo.py --color '#354453' --output design/exports/blue.png
-python3 scripts/logo.py --hide wordmark tagline --output design/exports/illustration.png
-python3 scripts/logo.py --background '#f8f9fa' --width 1600 --output design/exports/on-paper.png
+python3 vendor/brodov-style/scripts/logo.py --color '#354453' --output design/exports/blue.png
+python3 vendor/brodov-style/scripts/logo.py --hide wordmark tagline --output design/exports/illustration.png
+python3 vendor/brodov-style/scripts/logo.py --background '#f8f9fa' --width 1600 --output design/exports/on-paper.png
 ```
 
 Скрипт проверяет хеши мастера перед экспортом и запрещает запись внутрь
@@ -106,11 +106,11 @@ Recipe JSON-LD пока не добавлен. Есть BlogPosting; не выд
 
 - Literata для текста и заголовков, PT Sans для подписей и навигации.
 - WOFF2 включены в проект, внешних запросов шрифтов нет. Лицензии OFL —
-  `static/fonts/`. Исходные TTF и статическое начертание для карточек — assets.
-- Используется утверждённый полный знак без сухого края и штриховки букв.
-  Мелкая подпись внутри этой растровой картинки пока нарисована;
-  замена её на настоящий PT Sans относится к чистовой подготовке логотипа.
-- Утверждены тёплый чернильный #35312F и светлая бумага #FAF8F3.
+  `vendor/brodov-style/LICENSES/`. Исходные TTF и статическое начертание для карточек — в том же пакете.
+- Используется утверждённый знак без растровой подписи; подзаголовок —
+  отдельный HTML-текст. Архивный слой подписи сохранён в неизменяемом мастере.
+- Утверждены тёплый чернильный #35312F и светлая бумага #FFFDF9;
+  исходные пиксели рисунка и карт не перекрашиваются.
 - Комментариев и аналитики нет. Ссылку для обратной связи можно добавить
   через params.contact; пока она пуста, блок не выводится.
 - Новый блог работает на brodov.net. Архив старых материалов и перенаправления — позже.
@@ -154,9 +154,9 @@ GPX и OSM-кэш хранятся в `route-sources/`, вне публикуе�
 Текущие производные логотипа (Pillow, Python 3.11+):
 
 ```sh
-python3 scripts/logo.py --hide tagline --trim-bottom --output assets/images/logo.png
-python3 scripts/logo.py --hide wordmark tagline --trim --output assets/images/logo-illustration.png
-python3 scripts/logo.py --hide tagline --social-base --output assets/images/social-paper.png
+python3 vendor/brodov-style/scripts/logo.py --hide tagline --trim-bottom --output vendor/brodov-style/brand/logo.png
+python3 vendor/brodov-style/scripts/logo.py --hide wordmark tagline --trim --output vendor/brodov-style/brand/logo-illustration.png
+python3 vendor/brodov-style/scripts/logo.py --hide tagline --social-base --output vendor/brodov-style/brand/social-paper.png
 ```
 
 Рисунок и название берутся из неизменяемых слоёв v1. Подпись задана в
@@ -186,3 +186,25 @@ GitHub может отключить schedule после 60 дней отсут�
 последняя версия календарей остаётся доступной. Проверяйте Actions, при необходимости
 включайте workflow снова. Старую московскую подписку надо заменить новой ссылкой:
 `https://brodov.net/sun-calendar/moscow.ics`.
+
+## Единый пакет оформления
+
+`vendor/brodov-style` — единственный редактируемый источник общих цветов,
+шрифтов и утверждённых ресурсов бренда (interface 1). Hugo mounts подключают
+их без локальных копий. `tokens.json` каноничен; CSS — готовый экспорт, OG
+читает тот же JSON через data mount. Композиции OG не изменены.
+Шаблоны, истории, галереи, карты и специфичная вёрстка остаются в блоге.
+
+После клонирования: `git submodule update --init --recursive`.
+`make build` проверяет пакет, передаёт **пакет блога** в календарь через
+`--style-dir`, затем собирает production Hugo. `make check` проверяет результат.
+Обе части публикуются с одними исходными CSS/шрифтами, без runtime CDN.
+
+Для обновления сначала опубликовать коммит brodov-style, затем выбрать его
+через `git -C vendor/brodov-style fetch origin` и
+`git -C vendor/brodov-style checkout <tag-or-sha>`. При обновлении календаря
+аналогично выбрать опубликованный коммит в vendor/sun-calendar и выполнить
+`git -C vendor/sun-calendar submodule update --init --recursive`. Зафиксировать gitlinks в dev,
+проверить make check и открыть PR в main для ревью. Публикация только после
+согласованного merge. Не использовать --remote или checkout последнего main
+в обычной/ежедневной сборке.
