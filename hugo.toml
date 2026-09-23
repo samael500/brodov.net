@@ -34,3 +34,34 @@ disableKinds = ['taxonomy', 'term']
 [[module.mounts]]
   source = '.shorts-generated'
   target = 'content'
+
+# Shared resources are pinned by vendor/brodov-style, not copied editable sources.
+[[module.mounts]]
+  source = 'assets'
+  target = 'assets'
+[[module.mounts]]
+  source = 'static'
+  target = 'static'
+[[module.mounts]]
+  source = 'data'
+  target = 'data'
+[[module.mounts]]
+  source = 'vendor/brodov-style/fonts'
+  target = 'assets/fonts'
+[[module.mounts]]
+  source = 'vendor/brodov-style/brand'
+  target = 'assets/images'
+  files = ['*.png']
+[[module.mounts]]
+  source = 'vendor/brodov-style/css'
+  target = 'static/brodov-style/css'
+[[module.mounts]]
+  source = 'vendor/brodov-style/fonts'
+  target = 'static/brodov-style/fonts'
+  files = ['*.woff2']
+[[module.mounts]]
+  source = 'vendor/brodov-style/brand/paper-grain.png'
+  target = 'static/brodov-style/brand/paper-grain.png'
+[[module.mounts]]
+  source = 'vendor/brodov-style/tokens.json'
+  target = 'data/brodov_style.json'

@@ -1,3 +1,6 @@
 [submodule "vendor/sun-calendar"]
 	path = vendor/sun-calendar
 	url = https://github.com/samael500/sun-calendar.git
+[submodule "vendor/brodov-style"]
+	path = vendor/brodov-style
+	url = https://github.com/samael500/brodov-style.git

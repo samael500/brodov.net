@@ -45,7 +45,7 @@ if args.fetch:
 manifest=json.loads((cache/'manifest.json').read_text())
 if manifest['gpx_sha256']!=digest:raise SystemExit('GPX changed: use a separate cache or refresh with --fetch.')
 ink='#35312F';paper='#FAF8F3';accent='#A6533D';muted='#82796D'
-fonts=root.parent.parent/'assets/fonts'
+fonts=root.parent.parent/'vendor/brodov-style/fonts'
 fp=FontProperties(fname=str(fonts/'literata.ttf'))
 fontManager.addfont(str(fonts/'pt-sans.ttf'))
 plt.rcParams.update({'font.family':'PT Sans','text.color':ink,'axes.labelcolor':muted,'xtick.color':muted,'ytick.color':muted,'font.size':10})

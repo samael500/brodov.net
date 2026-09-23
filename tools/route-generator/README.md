@@ -67,11 +67,11 @@ tools/route-generator/.venv/bin/python tools/route-generator/render.py path/to/r
 - Подписи населённых пунктов разрежаются простой эвристикой: новый район нужно визуально проверить на пересечения названий и трека.
 - Длинное название/подзаголовок может потребовать изменения компоновки.
 - SVG содержит растровую маску мягких краёв. Это нормально для воспроизводимой статичной иллюстрации.
-- Заголовок — локальная Literata, служебные подписи — локальный PT Sans из `assets/fonts/` проекта. Лицензии сохранены в `static/fonts/`.
+- Заголовок — локальная Literata, служебные подписи — локальный PT Sans из `vendor/brodov-style/fonts/` проекта. Лицензии сохранены в `vendor/brodov-style/LICENSES/`.
 
 ## Авторство данных
 
-Подпись © OpenStreetMap contributors с openstreetmap.org/copyright сохранять на изображении. Данные OSM распространяются по ODbL: https://www.openstreetmap.org/copyright . Кэш содержит исходные выгрузки Overpass. Лицензии шрифтов проекта находятся в `static/fonts/`.
+Подпись © OpenStreetMap contributors с openstreetmap.org/copyright сохранять на изображении. Данные OSM распространяются по ODbL: https://www.openstreetmap.org/copyright . Кэш содержит исходные выгрузки Overpass. Лицензии шрифтов проекта находятся в `vendor/brodov-style/LICENSES/`.
 
 ## Для Codex / Hugo
 
